@@ -19,6 +19,7 @@ class CustomFloatingActionButton extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -28,7 +29,7 @@ class CustomFloatingActionButton extends StatelessWidget {
             bottom: MediaQuery.of(ctx).viewInsets.bottom + 20,
             left: 20,
             right: 20,
-            top: 20,
+            top: 16,
           ),
           child: Form(
             key: formKey,
@@ -37,20 +38,52 @@ class CustomFloatingActionButton extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'إضافة مهمة جديدة',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFCBD5E1),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEEF2FF),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(Icons.add_task_rounded, color: Color(0xFF6366F1), size: 22),
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'إضافة مهمة جديدة',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: titleController,
                     decoration: InputDecoration(
                       labelText: 'عنوان المهمة (مطلوب)',
-                      prefixIcon: const Icon(Icons.title),
+                      prefixIcon: const Icon(Icons.title, color: Color(0xFF6366F1), size: 20),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(14),
                       ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -59,19 +92,33 @@ class CustomFloatingActionButton extends StatelessWidget {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   TextFormField(
                     controller: descriptionController,
-                    maxLines: 3,
+                    maxLines: 2,
                     decoration: InputDecoration(
                       labelText: 'الوصف (اختياري)',
-                      prefixIcon: const Icon(Icons.description),
+                      prefixIcon: const Icon(Icons.description, color: Color(0xFF6366F1), size: 20),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(14),
                       ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: const BorderSide(color: Color(0xFF6366F1), width: 1.5),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                     ),
                   ),
                   const SizedBox(height: 16),
+                  const Text(
+                    'المدة الزمنية:',
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF475569)),
+                  ),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
                       Expanded(
@@ -80,14 +127,14 @@ class CustomFloatingActionButton extends StatelessWidget {
                           onChanged: (val) => selectedDays = val,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Expanded(
                         child: CustomDropdownButtonField(
                           data: dropdownData[1],
                           onChanged: (val) => selectedHours = val,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       Expanded(
                         child: CustomDropdownButtonField(
                           data: dropdownData[2],
@@ -96,12 +143,15 @@ class CustomFloatingActionButton extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF6366F1),
+                      foregroundColor: Colors.white,
+                      elevation: 0,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                     onPressed: () {
@@ -109,9 +159,11 @@ class CustomFloatingActionButton extends StatelessWidget {
                         final totalSecs = (selectedDays * 86400) + (selectedHours * 3600) + (selectedMinutes * 60);
                         if (totalSecs <= 0) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('يرجى تحديد وقت أكبر من الصفر!'),
-                              backgroundColor: Colors.orange,
+                            SnackBar(
+                              content: const Text('يرجى تحديد وقت أكبر من الصفر!'),
+                              backgroundColor: Colors.orange[800],
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                             ),
                           );
                           return;
@@ -127,7 +179,7 @@ class CustomFloatingActionButton extends StatelessWidget {
                         Navigator.pop(ctx);
                       }
                     },
-                    child: const Text('حفظ وإضافة المهمة', style: TextStyle(fontSize: 16)),
+                    child: const Text('حفظ وإضافة المهمة', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
@@ -140,10 +192,26 @@ class CustomFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      onPressed: () => _showAddTaskBottomSheet(context),
-      icon: const Icon(Icons.add),
-      label: const Text('مهمة جديدة'),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF6366F1).withOpacity(0.3),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: FloatingActionButton.extended(
+        elevation: 0,
+        backgroundColor: const Color(0xFF6366F1),
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        onPressed: () => _showAddTaskBottomSheet(context),
+        icon: const Icon(Icons.add_rounded, size: 22),
+        label: const Text('مهمة جديدة', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+      ),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'dart:ui' show Color;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
@@ -16,9 +15,6 @@ class NotificationService {
   static const _channelName = 'تنبيهات المهام';
   static const _channelDesc = 'منبه يعمل عند انتهاء وقت المهمة';
   static const _sound = RawResourceAndroidNotificationSound('alarm');
-  // White-on-transparent vector in android/app/src/main/res/drawable.
-  static const _statusIcon = 'ic_stat_alarm';
-  static const _accent = Color(0xFF673AB7);
 
   final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
@@ -32,7 +28,7 @@ class NotificationService {
 
     await _plugin.initialize(
       const InitializationSettings(
-        android: AndroidInitializationSettings(_statusIcon),
+        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
       ),
     );
 
@@ -76,9 +72,6 @@ class NotificationService {
         sound: _sound,
         enableVibration: true,
         audioAttributesUsage: AudioAttributesUsage.alarm,
-        icon: _statusIcon,
-        // largeIcon: const DrawableResourceAndroidBitmap('ic_notification_large'),
-        color: _accent,
         autoCancel: true,
         // 4 = FLAG_INSISTENT: the sound keeps repeating until the user taps
         // or dismisses the notification.

@@ -19,29 +19,50 @@ class CustomDropdownButtonField extends StatelessWidget {
       create: (context) => ChangeDropdownCubit(data.defaultValue),
       child: BlocBuilder<ChangeDropdownCubit, int>(
         builder: (context, state) {
-          return DropdownButtonFormField<int>(
-            value: state,
-            decoration: InputDecoration(
-              labelText: data.labelText,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          return Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
             ),
-            items: List.generate(data.amount, (index) => index)
-                .map(
-                  (val) => DropdownMenuItem<int>(
-                    value: val,
-                    child: Text('$val ${data.nameValue}'),
-                  ),
-                )
-                .toList(),
-            onChanged: (value) {
-              if (value != null) {
-                context.read<ChangeDropdownCubit>().changeValue(value);
-                onChanged(value);
-              }
-            },
+            child: DropdownButtonFormField<int>(
+              value: state,
+              isExpanded: true,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1E293B),
+              ),
+              decoration: InputDecoration(
+                labelText: data.labelText,
+                labelStyle: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              ),
+              icon: const Icon(Icons.keyboard_arrow_down_rounded, color: Color(0xFF6366F1), size: 18),
+              dropdownColor: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              items: List.generate(data.amount, (index) => index)
+                  .map(
+                    (val) => DropdownMenuItem<int>(
+                      value: val,
+                      child: Text(
+                        '$val ${data.nameValue}',
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  context.read<ChangeDropdownCubit>().changeValue(value);
+                  onChanged(value);
+                }
+              },
+            ),
           );
         },
       ),

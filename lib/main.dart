@@ -41,13 +41,27 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ?..clearSnackBars()
       ..showSnackBar(
         SnackBar(
-          content: Text('انتهى وقت المهمة: $title ⏰'),
-          backgroundColor: Colors.red,
+          content: Row(
+            children: [
+              const Icon(Icons.alarm_on_rounded, color: Colors.white, size: 24),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  'انتهى وقت المهمة: $title ⏰',
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: const Color(0xFFEF4444),
           behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          margin: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           duration: const Duration(seconds: 15),
           action: SnackBarAction(
             label: 'إيقاف المنبه',
-            textColor: Colors.white,
+            textColor: Colors.amberAccent,
             onPressed: NotificationService.instance.dismissShown,
           ),
         ),
@@ -57,7 +71,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      // Opening the app silences a ringing alarm and refreshes the countdowns.
       NotificationService.instance.dismissShown();
       _cubit.onResume();
     }
@@ -81,14 +94,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
+            seedColor: const Color(0xFF6366F1),
             brightness: Brightness.light,
           ),
-          scaffoldBackgroundColor: const Color(0xFFF4F5F7),
+          scaffoldBackgroundColor: const Color(0xFFF8FAFC),
           cardTheme: CardThemeData(
-            elevation: 2,
+            elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(18),
             ),
           ),
         ),
