@@ -77,7 +77,7 @@ class NotificationService {
         enableVibration: true,
         audioAttributesUsage: AudioAttributesUsage.alarm,
         icon: _statusIcon,
-        largeIcon: const DrawableResourceAndroidBitmap('ic_notification_large'),
+        // largeIcon: const DrawableResourceAndroidBitmap('ic_notification_large'),
         color: _accent,
         autoCancel: true,
         // 4 = FLAG_INSISTENT: the sound keeps repeating until the user taps
