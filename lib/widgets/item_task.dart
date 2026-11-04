@@ -94,20 +94,7 @@ class ItemTask extends StatelessWidget {
                 ),
                 onPressed: isFinished
                     ? null
-                    : () {
-                        context.read<TaskCubit>().toggleTimer(
-                              task.id,
-                              onFinished: (taskTitle) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('انتهى وقت المهمة: $taskTitle! ⏰'),
-                                    backgroundColor: Colors.red,
-                                    behavior: SnackBarBehavior.floating,
-                                  ),
-                                );
-                              },
-                            );
-                      },
+                    : () => context.read<TaskCubit>().toggleTimer(task.id),
               ),
               IconButton(
                 icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
