@@ -17,8 +17,8 @@ class TaskCubit extends Cubit<List<TaskModel>> {
   /// Loads saved tasks, catches up on time that passed while the app was
   /// closed, and re-arms the alarms of tasks that are still running.
   Future<void> load() async {
-    final saved = await _storage.load();
-    final refreshed = _refresh(saved, DateTime.now()).tasks;
+    final List<TaskModel> saved = await _storage.load();
+    final List<TaskModel> refreshed = _refresh(saved, DateTime.now()).tasks;
     emit(refreshed);
     for (final t in refreshed.where((t) => t.isRunning)) {
       await _notifications.scheduleAlarm(

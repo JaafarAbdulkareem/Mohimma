@@ -32,6 +32,8 @@ class TaskModel extends Equatable {
     final end = endAt;
     if (end == null) return remainingSeconds;
     final ms = end.difference(now ?? DateTime.now()).inMilliseconds;
+    //999 is added to round up to the next second if there are any milliseconds left.
+    //~/ is used to perform integer division, discarding any remainder. example: 1999 + 999 = 2998, 2998 ~/ 1000 = 2 seconds left.
     return ms <= 0 ? 0 : (ms + 999) ~/ 1000;
   }
 
@@ -69,9 +71,8 @@ class TaskModel extends Equatable {
       description: json['description'] as String?,
       totalSeconds: json['totalSeconds'] as int,
       remainingSeconds: json['remainingSeconds'] as int,
-      endAt: endAtMs == null
-          ? null
-          : DateTime.fromMillisecondsSinceEpoch(endAtMs),
+      endAt:
+          endAtMs == null ? null : DateTime.fromMillisecondsSinceEpoch(endAtMs),
       createdAt: DateTime.fromMillisecondsSinceEpoch(json['createdAt'] as int),
     );
   }
